@@ -1,30 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
+import { CircularProgress } from "@mui/material";
 
 import ProductCard from "./productCard";
-class Products extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			Books: [],
-		};
-	}
-
-	componentDidMount() {
-		fetch("https://api.jsonbin.io/v3/b/6319970de13e6063dc9fbf80")
-			.then((response) => response.json())
-			.then((data) => {
-				this.setState({ Books: data.record });
-			});
-	}
-	render() {
-		return (
-			<React.Fragment>
-				{this.state.Books.map((product) => (
-					<ProductCard key={product.id} product={product} />
-				))}
-			</React.Fragment>
-		);
-	}
-}
+const Products = ({ products, loading }) => {
+	if (loading) return <CircularProgress color='primary' />;
+	return (
+		<div>
+			{products.map((product) => (
+				<ProductCard key={product.Id} product={product} />
+			))}
+		</div>
+	);
+};
 
 export default Products;
