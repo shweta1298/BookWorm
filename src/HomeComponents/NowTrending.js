@@ -4,6 +4,7 @@ import {
 } from 'reactstrap';
 
 import Cards from './Cards';
+//import Cards1 from './Cards1';
 
 
 class NowTrending extends React.Component {
@@ -16,13 +17,14 @@ class NowTrending extends React.Component {
         };
 
     }
+    
     componentDidMount() {
-        fetch('https://api.jsonbin.io/v3/b/6319970de13e6063dc9fbf80')
+        fetch('https://localhost:44357/api/NowTrending/1')
             .then(res => res.json())
             .then(
                 (result) => {
                     this.setState({
-                        Books: result.record
+                        Books: result
                     });
                 }
             );

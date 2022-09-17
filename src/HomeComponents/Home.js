@@ -7,15 +7,28 @@ import DemoCarousel from './DemoCarousel';
 import NowTrending from './NowTrending'
 import BestSeller from './BestSeller'
 import NewArrival from './NewArrival'
+import {
+    Card,
+    CardMedia,
+    CardContent,
+    Typography,
+    Button,
+    ButtonBase
+} from "@mui/material";
 
 
 export class Home extends Component {
+    
     render() {
+        // const getuserArr = localStorage.getItem("login");
+        //         console.log(getuserArr);
         return (
             <div>
                 <DemoCarousel />
                 <br></br>
-                <h2><b><i>Now Trading</i></b></h2>
+                <Typography  sx={{ fontFamily: 'Monotype Corsiva', color:"#565656" }}>
+                <h1><u>Now Trading</u></h1>
+                </Typography>
                 <br></br>
                 <div className='container' >
                     <Container >
@@ -26,7 +39,9 @@ export class Home extends Component {
                 </div>
                 <br></br>
                 <br></br>
-                <h2><b><i>Best Seller</i></b></h2>
+                <Typography sx={{ fontFamily: 'Monotype Corsiva', color:"#565656" }}>
+                <h1><u>Best Seller</u></h1>
+                </Typography >
                 <br></br>
                 <div className='container' >
                     <Container >
@@ -37,7 +52,9 @@ export class Home extends Component {
                 </div>
                 <br></br>
                 <br></br>
-                <h2><b><i>New Arrival</i></b></h2>
+                <Typography sx={{ fontFamily: 'Monotype Corsiva', color:"#565656" }}>
+                <h1><u>New Arrival</u></h1>
+                </Typography>
                 <br></br>
                 <div className='container' >
                     <Container >

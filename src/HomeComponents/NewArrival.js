@@ -17,12 +17,12 @@ class NewArrival extends React.Component {
 
     }
     componentDidMount() {
-        fetch('https://api.jsonbin.io/v3/b/6319970de13e6063dc9fbf80')
+        fetch('https://localhost:44357/api/NowTrending/2')
             .then(res => res.json())
             .then(
                 (result) => {
                     this.setState({
-                        Books: result.record
+                        Books: result
                     });
                 }
             );

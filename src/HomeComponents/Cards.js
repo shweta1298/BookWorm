@@ -1,36 +1,64 @@
 import React, { Component } from 'react'
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Row, Col
-} from 'reactstrap';
+// import {
+//     Card, CardImg, CardText, CardBody,
+//     CardTitle, CardSubtitle, Button, Row, Col
+// } from 'reactstrap';
 import './Card.css';
 
+import {
+    Card,
+    CardMedia,
+    CardContent,
+    Typography,
+    Button,
+    ButtonBase
+} from "@mui/material";
+import { Navigate } from 'react-router-dom';
 
-export class Cards extends Component {
-    render() {
-        return (
-            <React.Fragment>
-                <Card style={{ width: "100%", height: "100%" }} >
-                    <a href="https://www.ynharari.com/book/sapiens-2/">
-                        <CardImg className='CardImg' style={{ width: "100%", height: "100%" }} src={this.props.object.Cover} alt="Card image cap" />
-                    </a>
 
-                    <CardBody  >
-                        <a href="https://www.ynharari.com/book/sapiens-2/">
-                            <CardTitle className='text-truncate'><b>{this.props.object.Title}-{this.props.object.Author.Author_Name}</b></CardTitle>
-                        </a>
 
-                        <CardSubtitle><b>₹{this.props.object.BasePrice}</b></CardSubtitle>
+let tempid = -1;
+export default function Cards(props) {
 
-                    </CardBody>
+    const redirectToDiscription = () => {
+
+        localStorage.setItem("bookid")
+        ///employee/' + emp.Id
+        Navigate('./FetchDiscription')
+
+    }
+
+
+    return (
+        <React.Fragment>
+            <ButtonBase>
+                <Card 
+                onClick={()=>{
+                    tempid=props.object.Id;
+                    redirectToDiscription()}}
+                sx={{ width: "250px", height: "450px", marginBottom: "20px", bgcolor: "#fff6ff",borderColor:"#ff3b3f" }}>
+                    <CardMedia
+                        sx={{ maxHeight: "350px", maxWidth: "230px", paddingLeft: "20px", marginTop: "10px" }}
+
+                        component="img"
+                        //height="300px"
+                        image={props.object.Path.BookPath + props.object.Cover}
+                        alt="green iguana"
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div" className='text-truncate' sx={{ fontFamily: 'Raleway', fontSize:"18px" }}>
+                            {props.object.Title}-{props.object.Author.Author_Name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{color:"#ff3b3f"}}>
+                        <h6><b>₹{props.object.BasePrice}</b></h6>
+                        </Typography>
+                    </CardContent>
 
                 </Card>
-            </React.Fragment>
-        )
-    }
+            </ButtonBase>
+        </React.Fragment>
+    )
 }
-export default Cards
 
-//href="https://www.ynharari.com/book/sapiens-2/"
-//<button className="card__btn">View Recipe</button>
-//style={{ width: "100%", height: "100%" }}
+
+
