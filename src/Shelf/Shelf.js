@@ -37,7 +37,7 @@ const Ebook = () => {
 const handleCategoryChange = (event) => {
 
     setTemp(
-        eboks.filter((eboks) => eboks.BookCategory.Category === event)
+        eboks.filter((eboks) => eboks.BookCategory?.Category === event)
     );
 };
 
@@ -59,19 +59,20 @@ return (
         {temp.map(book => (
             
             <div class="card  mt-5" style={{ width: "1000px",height: "320px" }}>
+                {console.log(book)}
                 <div class="row g-0">
 
                     <div class="col-md-4 pt-2" >
                         <img 
-                        src={book.Path?.BookPath + book?.Cover} style={{width:"220px", maxHeight:"300px"}}  alt="...">
+                        src={book.Book?.Path?.BookPath + book.Book?.Cover} style={{width:"220px", maxHeight:"300px"}}  alt="...">
                     </img>
                     </div>
                     <div class="col-md-6" style={{ textAlign: "left" }}>
                         <div class="card-body">
-                            <h3 class="card-title">{book.Title}</h3>
+                            <h3 class="card-title">{book.Book.Title}</h3>
                             <br></br>
-                            <h5 class="card-text">{book.Author.Author_Name}</h5>
-                            <p class="card-text"><small class="text-muted">{book.Expairy_Date}</small></p>
+                            <h5 class="card-text">{book.Book.Author?.Author_Name}</h5>
+                            <p class="card-text"><small class="text-muted">{book.Book.Expairy_Date}</small></p>
                             <br></br>
                             <button type="button" class="btn btn-danger">Read/Listen</button>
                         </div>

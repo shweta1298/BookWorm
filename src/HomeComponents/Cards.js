@@ -13,19 +13,19 @@ import {
     Button,
     ButtonBase
 } from "@mui/material";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
 let tempid = -1;
 export default function Cards(props) {
+    const navigate = useNavigate();
 
     const redirectToDiscription = () => {
 
-        localStorage.setItem("bookid")
-        ///employee/' + emp.Id
-        Navigate('./FetchDiscription')
-
+        //localStorage.setItem("Bookdata",bookobject)
+        localStorage.setItem("bookid",tempid)
+        navigate('/FetchDiscription');
     }
 
 

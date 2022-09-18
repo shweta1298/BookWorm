@@ -19,7 +19,7 @@ class NowTrending extends React.Component {
     }
     
     componentDidMount() {
-        fetch('https://localhost:44357/api/NowTrending/1')
+        fetch('https://localhost:44356/api/NowTrending/1')
             .then(res => res.json())
             .then(
                 (result) => {

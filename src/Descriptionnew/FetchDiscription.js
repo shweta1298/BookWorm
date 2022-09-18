@@ -8,7 +8,7 @@ const FetchDiscription=()=>{
     const [Books, setBooks] = useState([]);
 
 
-    let bookid=2004//localStorage.getItem("bookid")
+    let bookid=localStorage.getItem("bookid")
 
     useEffect(() => {
         fetch('https://localhost:44356/api/Discription/'+bookid)

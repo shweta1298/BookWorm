@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import NavLink from "react-bootstrap/NavLink"
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Modal, ModalBody } from "reactstrap";
 import "./Nav.css";
@@ -13,6 +14,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import logo from "./logo3.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { Password, PropaneSharp } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+//import { Link, Outlet } from "react-router-dom";
 //import {routes,route} from 'react-router-dom'
 //import { NavLink } from "react-bootstrap";
 //import { appBarclassNamees } from "@mui/material";
@@ -38,6 +41,7 @@ function Newnav() {
       loginref.current.textContent = "Login";
     }
   });
+ 
   //width="130" height="30"
   return (
     <div>
@@ -48,7 +52,7 @@ function Newnav() {
             style={{ paddingBottom: "4px" }}
             className="justify-content-Right nav ms-1 topnav"
           >
-            <a className="nav-link blcolor" href="#fffv">
+            <a className="nav-link blcolor" href="/Home">
               <b>Home</b>
             </a>
           </div>
@@ -77,7 +81,7 @@ function Newnav() {
                 style={{ paddingBottom: "4px" }}
                 className="justify-content-Right nav ms-1 topnav"
               >
-                <a className="nav-link blcolor" href="#fffv">
+                <a className="nav-link blcolor" href="/ProductPage">
                   <b>Products</b>
                 </a>
               </div>
@@ -109,12 +113,12 @@ function Newnav() {
                 {/* ------------------------------------------------------------------------------------------------- */}
               </div>
               <div className="ms-3 nav topnav">
-                <a className="nav-link blcolor" href="#action1">
+                <a className="nav-link blcolor" href="/Cart2">
                   <ShoppingCartIcon />
                 </a>
               </div>
               <div className="ms-3 nav topnav">
-                <a className="nav-link blcolor" href="#fffv">
+                <a className="nav-link blcolor" href="/Shelf">
                   <b>MyShelf</b>
                 </a>
               </div>
@@ -135,8 +139,10 @@ function Newnav() {
                 </a>
               </div>
               <div className="ms-3 nav topnav">
-                <a className="nav-link blcolor" href="#action1">
+                <a className="nav-link blcolor" href="/Registration" >
+                
                   <b>Register</b>
+                 
                 </a>
               </div>
             </Nav>
@@ -170,7 +176,7 @@ function LoginPopUp(props) {
         console.log(values.Email_ID + "," + values.Password);
         // localStorage.clear();
 
-        fetch("https://localhost:44357/api/Login", {
+        fetch("https://localhost:44356/api/Login", {
           method: "POST",
 
           headers: {

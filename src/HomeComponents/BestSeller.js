@@ -17,7 +17,7 @@ class BestSeller extends React.Component {
 
     }
     componentDidMount() {
-        fetch('https://localhost:44357/api/NowTrending/3')
+        fetch('https://localhost:44356/api/NowTrending/3')
             .then(res => res.json())
             .then(
                 (result) => {

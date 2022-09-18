@@ -23,7 +23,7 @@ const initialValues = {
 };
 
 
-function Customer() {
+function Registration() {
     const ref = useRef(null);
     const [formData, setFormData] = useState(initialValues);
 
@@ -31,7 +31,7 @@ function Customer() {
 
     const handleChange2 = (e) => {
        
-        fetch('https://localhost:44357/api/Usernames', {
+        fetch('https://localhost:44356/api/Usernames', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -78,7 +78,7 @@ function Customer() {
                 Password: values.Password
             } */)
     
-            fetch('https://localhost:44357/api/Registrations', {
+            fetch('https://localhost:44356/api/Registrations', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -274,7 +274,7 @@ function Customer() {
     )
 }
 
-export default Customer;
+export default Registration;
 
 
   //style={{ display: 'flex', justifyContent: "center" }
