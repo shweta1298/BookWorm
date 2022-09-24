@@ -11,6 +11,8 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 //import {AccountBalanceWalletIcon, PlaylistRemoveIcon ,CurrencyRupeeIcon} from '@mui/icons-material';
 import PayNowButton from './Payments';
 import { Navigate } from 'react-router-dom';
+import { setAutoFreeze } from 'immer';
+
 
 const columns = [
 
@@ -23,13 +25,15 @@ let tempList = [];
 let PurchaseList = [];
 //let temp1=[];
 
-
+//let book=[];
 const InvoiceTable = () => {
     const [Books, setBooks] = useState([]);
     const [postBooks, setPostBooks] = useState([]);
     const [Total, setTotal] = useState(0);
     const [errorMsg, seterrorMsg] = useState("");
-  
+
+    setAutoFreeze(false);
+
 
     function calTotal() {
         let tempTotal = 0;
@@ -40,9 +44,24 @@ const InvoiceTable = () => {
         setTotal(tempTotal)
     }
 
-    function addListItem(list, purchaseType) {
+    function addItem(list, purchaseType) {
+
         for (let i = 0; i < list.length; i++) {
-            console.log(list[i].Book.SalePrice)
+            console.log(purchaseType)
+            tempList.push({
+                id: (i + 1),
+                Id: list[i].Id,
+                Title: list[i].Title,
+                RentalPackage: purchaseType !== null ? purchaseType + " days" : "",//[i].rentalPackage,  //expairy date
+                Price: purchaseType !== null ? list[i].RentPrice * purchaseType : list[i].SalePrice //list[i].SalePrice 
+            });
+        }
+        setBooks(tempList);
+    }
+    function addListItem(list, purchaseType) {
+
+        for (let i = 0; i < list.length; i++) {
+            console.log(list[i].SalePrice)
             tempList.push({
                 id: (i + 1),
                 Id: list[i].Book.Id,
@@ -55,24 +74,51 @@ const InvoiceTable = () => {
     }
 
     useEffect(() => {
-        if (localStorage.getItem("Bookdata") !== null) {
-            let book = localStorage.getItem("Bookdata");
-            let purchaseType = localStorage.getItem("purchaseType")
-            tempList.push({
-                id: 1,
-                Id: book.Id,
-                Title: book.Title,
-                RentalPackage: null,//purchaseType[i].rentalPackage,  //expairy date
-                Price: book.SalePrice  // purchaseType.purchaseType==="Rent"? book.RentPrice*purchaseType.rentalPackage : book.SalePrice
-            });
-            setBooks(tempList);
-            setPostBooks(book);
+        if (localStorage.getItem("Bookid") !== null) {
+            let bookid = localStorage.getItem("Bookid");
+            //console.log(bookid)
+            //book=JSON.parse(JSON.stringify(book))
+            // let books=[bookid];
+            // console.log(books);
+            let purchaseType = localStorage.getItem("purchaseType");
+
+            //addListItem(books,pt)
+
+
+            fetch('https://localhost:44356/api/Discription/' + bookid)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        console.log(result);
+                        addItem([result], purchaseType)
+                        setBooks(tempList);
+                        setPostBooks(result);
+                        localStorage.removeItem("Bookid");
+                        localStorage.removeItem("purchaseType");
+
+                    }
+                );
+
+
+            //for (let i = 1; i === 1; i++) {
+            // tempList.push({
+            //     id: 1,
+            //     Id: book?.Id,
+            //     Title: book.Title,
+            //     RentalPackage: purchaseType.rentalPackage,  //expairy date
+            //     Price: purchaseType.purchaseType === "Rent" ? book.RentPrice * purchaseType.rentalPackage : book.SalePrice
+            // });
+            //Object.preventExtensions(tempList);
+            //}
+
+            //setBooks(tempList);
+            //setPostBooks(book);
         }
         else {
             if (localStorage.getItem("CustomerId") == null) {
                 //  navigate("/")
             }
-            const CustomerId = 1;//localStorage.getItem("CustomerId")
+            const CustomerId = localStorage.getItem("CustomerId")
             fetch("https://localhost:44356/api/GetFromCart/" + CustomerId)
                 .then(res => res.json())
                 .then((result) => {
@@ -92,47 +138,66 @@ const InvoiceTable = () => {
             //  navigate("/")
         }
         const arrIndex = Books.map(element => element.Id);
-        const temp = postBooks.filter((postItem) => arrIndex.indexOf(postItem.Id) !== -1)
+        console.log(Books);
+        console.log(arrIndex);
+        const temp = postBooks.filter((postItem) => arrIndex.includes(postItem.BookId));
+
+
+        //console.log(postBooks.filter((postItem) => arrIndex.includes(postItem.Id)))
         setPostBooks(temp);
+
         let Sales = [];
         let tempdate = new Date();
         let Expiry_date = 0;
         let purchaseType = localStorage.getItem("purchaseType");
         for (let i = 0; i < temp.length; i++) {
-            if (purchaseType[i].purchaseType === "Rent") {
-                if (purchaseType[i].rentalPackage === 15)
+            if (purchaseType !== null) {
+                if (purchaseType === 15)
                     Expiry_date = tempdate.getDate() + 15;
                 else
                     Expiry_date = tempdate.getDate() + 30;
 
                 tempdate.setDate(Expiry_date);
             }
-            else if (purchaseType[i].purchaseType === "Buy") {
+            else if (purchaseType === null) {
                 tempdate = null;
             }
-            
+            console.log(tempdate);
             Sales.push({
                 Purchase_date: new Date(),
                 Expiry_date: tempdate,
                 BookId: temp[i].BookId,
-                PurchaseTypeId: purchaseType[i].purchaseType==="Rent"?8:7
+                PurchaseTypeId: purchaseType !== null ? 2 : 3
             })
         }
-       let Order = {
-            TotalPayableAmt : Total,
+        console.log(Sales);
+        let Order = {
+            TotalPayableAmt: Total,
             Status: true,
-            CustomerId : localStorage.getItem("CustomerId"),
-            Sale : Sales
+            CustomerId: localStorage.getItem("CustomerId"),
+            Sales:Sales
         }
-        console.log(temp)
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(Order)
         };
-        fetch('https://reqres.in/api/posts', requestOptions)
+        fetch('https://localhost:44356/api/Invoice', requestOptions)
             .then(response => response.json())
             .then(data => data);
+        console.log(Order);
+
+
+        // const requestsaleOption = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(Sale)
+        // };
+        // fetch('https://localhost:44356/api/addtosale', requestsaleOption)
+        //     .then(response => response.json())
+        //     .then(data => data);
+
     }
     const OnRemoveHandler = () => {
         if (PurchaseList.length >= 1) {
@@ -154,7 +219,15 @@ const InvoiceTable = () => {
             <h3>Invoice</h3>
             <DataGrid
                 className='alcenter'
-                getRowId={(row) => row.Id}  // to give unique id to each row
+                getRowId={(row) => {
+                    return row.Id
+                    // if (localStorage.getItem("Bookdata") === null) {
+                    //     return row.Id;
+                    // }
+                    // else {
+                    //     ;
+                    // }
+                }}  // to give unique id to each row
                 rows={Books}
                 columns={columns}
                 pageSize={10}

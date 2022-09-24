@@ -7,6 +7,7 @@ import styled from './Registration.module.css';
 //import ResponsiveDatePickers from './Registration/ResponsiveDatePickers';
 import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const initialValues = {
@@ -24,6 +25,7 @@ const initialValues = {
 
 
 function Registration() {
+    const navigate = useNavigate();
     const ref = useRef(null);
     const [formData, setFormData] = useState(initialValues);
 
@@ -92,6 +94,9 @@ function Registration() {
 
 
             action.resetForm(); 
+            navigate('/');
+            alert("Registeration Successfully done!")
+
         },
 
         validationSchema: yup.object({

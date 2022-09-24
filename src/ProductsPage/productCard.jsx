@@ -25,54 +25,80 @@ let tempid = -1;
 const ProductCard = ({ product }) => {
 	const navigate = useNavigate();
 	const [cartadd, setCartadd] = useState(false);
-	
-	
-	
+
+
+
 
 	const ref = useRef();
 
 	const redirectToDiscription = () => {
 
 		//localStorage.setItem("Bookdata",bookobject)
-		localStorage.setItem("bookid", tempid)
+		localStorage.setItem("Bookid", tempid)
 		navigate('/FetchDiscription');
 	}
-	
+
 
 	const addtoCart = () => {
 
-		const CustomerId=localStorage.getItem("CustomerId")
-		if(CustomerId==null){
-			navigate('/Home');
-		}
-
-		setCartadd(!cartadd)
-		if (cartadd === false) {
-			ref.current.textContent = "ADDED TO CART"
+		const CustomerId = localStorage.getItem("CustomerId")
+		if (CustomerId == null) {
+			navigate('/ProductPage');
+			alert("please login")
+			//localStorage.setItem("openlogin",true);
 		}
 		else {
-			ref.current.textContent = "ADD TO CART"
+
+			setCartadd(!cartadd)
+			if (cartadd === false) {
+				fetch('https://localhost:44356/api/AddtoCart', {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						BookId: tempid,
+						CustomerId: CustomerId,
+						PurchaseTypeId: 2
+					})
+				}).then(res => res.json()).then((result) => {
+					//console.warn("result", result);
+					console.log(result);
+				})
+				ref.current.textContent = "ADDED TO CART"
+			}
+			else {
+
+				fetch('https://localhost:44356/api/RemoveFromCart/?CustomerId=' + CustomerId + '&BookId=' + tempid,
+					{ method: 'Delete' })
+					.then(response => response.json())
+					.then(response => {
+
+						//console.warn("response", response);
+						console.log(response);
+					});
+				ref.current.textContent = "ADD TO CART"
+			}
+
+
+
+
+
 		}
 
-		
-
-		fetch('https://localhost:44356/api/AddtoCart', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				BookId:tempid,
-				CustomerId:CustomerId,
-				PurchaseTypeId:2
-			})
-		}).then(res=>res.json()).then((result) => {
-			//console.warn("result", result);
-			console.log(result);
-		})
-
 	}
+
+	// const gotoinvoice = (book) => {
+
+	// 	localStorage.setItem("Bookdata", book);
+	// 	localStorage.setItem("purchaseType", {
+	// 		purchaseType: "Buy",
+	// 		rentalPackage: null
+
+	// 	})
+	// 	navigate('/InvoiceTable');
+	// }
 
 	return (
 		<Card
@@ -86,7 +112,7 @@ const ProductCard = ({ product }) => {
 				border: "none",
 				boxShadow: "0px 10px 12px -12px rgba(0.4,0.4,0.4,0.4)",
 			}}
-			
+
 		>
 			<CardMedia
 				component='img'
@@ -98,34 +124,41 @@ const ProductCard = ({ product }) => {
 				sx={{ width: "160px", maxHeight: "250px", padding: "5px" }}
 				onClick={() => {
 					tempid = product.Id;
-					redirectToDiscription()}}
-				
+					redirectToDiscription()
+				}}
+
 			/>
 
 			<Box sx={{ display: "flex", flexDirection: "column" }}
-			onClick={() => {
-				tempid = product.Id;
-				redirectToDiscription()
-			}}>
+				onClick={() => {
+					tempid = product.Id;
+					redirectToDiscription()
+				}}>
 				<CardContent component='div' sx={{ flex: "1 0 auto", width: "250px" }}>
-					<Typography variant='h5' sx={{ fontWeight: "400" }}>
+					<Typography variant='h5' sx={{ fontWeight: "400", fontFamily: 'Raleway', fontSize:"25px"  }}>
 						{product.Title}
 					</Typography>
-					<Typography variant='subtitle1' sx={{ fontWeight: "300" }}>
+					<Typography variant='subtitle1' sx={{ fontWeight: "300", fontFamily: 'Raleway', fontSize:"18px"  }}>
 						{product.Author.Author_Name}
 					</Typography>
 					<Grid container spacing={0.5}>
 						<Grid item>
 							{/* <FontAwesomeIcon icon={solid("indian-rupee-sign")} size='sm' /> */}
 						</Grid>
-						<Grid item xs={2}>
+						
 							<Typography
 								variant='subtitle2'
-								sx={{ fontSize: "20px", fontWeight: "600", marginLeft: "80px" }}>
-								₹{product.SalePrice}
+								sx={{ fontSize: "15px", fontWeight: "600", marginLeft: "35px",marginTop:"40px" }}>
+								Price: ₹{product.SalePrice}
 							</Typography>
-						</Grid>
+							<Typography
+						variant='subtitle2'
+						sx={{ fontSize: "15px", fontWeight: "600", marginLeft: "40px", color:"#ff3b3f"}}>
+						Rent Price: ₹{product.RentPrice} <span style={{fontSize: "15px"}}>per/day</span>
+					</Typography>
+						
 					</Grid>
+					
 				</CardContent>
 			</Box>
 			<Box
@@ -160,7 +193,36 @@ const ProductCard = ({ product }) => {
 								</Grid>
 							</Grid>
 						</Button>
-						<Button className='btncolor' onClick={() => { navigate('/InvoiceTable'); }}>
+						<Button className='btncolor'
+							// onClick={() => {
+							// 	//tempid = product.Id;
+							// 	//gotoinvoice(product)
+
+							// 	localStorage.setItem("Bookid", product.Id);
+							// 	localStorage.setItem("purchaseType", JSON.stringify({
+							// 		purchaseType: "Buy",
+							// 		rentalPackage: null
+
+							// 	}))
+							// 	navigate('/InvoiceTable');
+							// }}
+							onClick={() => {
+								//tempid = product.Id;
+								//gotoinvoice(product)
+								const CustomerId = localStorage.getItem("CustomerId")
+								if (CustomerId == null) {
+									navigate('/ProductPage');
+									alert("please login")
+									//localStorage.setItem("openlogin",true);
+								}
+								else{
+			
+								localStorage.setItem("Bookid", product.Id);
+								
+								navigate('/InvoiceTable');
+								}
+							}}
+							>
 							<Grid container spacing={0.5}>
 								<Grid item xs={2}>
 									<SellIcon className='btnIcon ' />
@@ -171,7 +233,7 @@ const ProductCard = ({ product }) => {
 							</Grid>
 						</Button>
 
-						<SelectRentDuration></SelectRentDuration>
+						<SelectRentDuration data={product}></SelectRentDuration>
 					</Stack>
 				</CardActions>
 			</Box>

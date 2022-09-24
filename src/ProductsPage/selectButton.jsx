@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 // import { LibraryAdd } from "@mui/icons-material";
-const SelectRentDuration = () => {
+export default function SelectRentDuration(props) {
 	const navigate = useNavigate();
 	return (
 		// <Dropdown
@@ -41,10 +41,43 @@ const SelectRentDuration = () => {
 				defaultValue={15}
 				displayEmpty
 				size='small'
-				onClick={() => {navigate('/InvoiceTable')}}
+				
 			>
-				<MenuItem value={15} >Rent (15 days)</MenuItem>
-				<MenuItem value={30}>Rent (30 days)</MenuItem>
+				<MenuItem value={15}
+				onClick={() => {
+					//tempid = product.Id;
+					//gotoinvoice(product)
+					const CustomerId = localStorage.getItem("CustomerId")
+					if (CustomerId == null) {
+						navigate('/ProductPage');
+						alert("please login")
+						//localStorage.setItem("openlogin",true);
+					}
+					else{
+					localStorage.setItem("Bookid", props.data.Id);
+					localStorage.setItem("purchaseType",  15)
+					navigate('/InvoiceTable');
+					}
+				}}
+				>Rent (15 days)</MenuItem>
+
+				<MenuItem value={30}
+				onClick={() => {
+					//tempid = product.Id;
+					//gotoinvoice(product)
+					const CustomerId = localStorage.getItem("CustomerId")
+					if (CustomerId == null) {
+						navigate('/ProductPage');
+						alert("please login")
+						//localStorage.setItem("openlogin",true);
+					}
+					else{
+					localStorage.setItem("Bookid", props.data.Id);
+					localStorage.setItem("purchaseType",30 )
+					navigate('/InvoiceTable');
+					}
+				}}
+				>Rent (30 days)</MenuItem>
 			</Select>
 
 		</FormControl>
@@ -52,4 +85,4 @@ const SelectRentDuration = () => {
 	);
 };
 
-export default SelectRentDuration;
+

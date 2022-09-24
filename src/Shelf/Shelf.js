@@ -20,8 +20,8 @@ const Ebook = () => {
     const [eboks, setEboks] = useState([]);
     const [temp, setTemp] = useState([]);
     useEffect(() => {
-        // const CustomerId=1;//localStorage.getItem("CustomerId");
-        fetch('https://localhost:44356/api/Shelves/1'/*+CustomerId*/)
+        const CustomerId=localStorage.getItem("CustomerId");
+        fetch('https://localhost:44356/api/Shelves/'+CustomerId)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -50,7 +50,7 @@ return (
     <div className='body1 container' style={{justifyContent:"center"}}>
         {/* {console.log(this.state.eboks)} */}
         <Dropdown onSelect={handleCategoryChange} style={{ textAlign: "left" }}>
-            <Dropdown.Toggle variant="warning" id="dropdown-basic">Dropdown Button</Dropdown.Toggle>
+            <Dropdown.Toggle variant="warning" id="dropdown-basic">Book Category</Dropdown.Toggle>
             <Dropdown.Menu >
                 <Dropdown.Item eventKey="E-Book">E-Book</Dropdown.Item>
                 <Dropdown.Item eventKey="Audiobook">Audio-Book</Dropdown.Item>
@@ -59,7 +59,7 @@ return (
         {temp.map(book => (
             
             <div class="card  mt-5" style={{ width: "1000px",height: "320px" }}>
-                {console.log(book)}
+                {console.log(new Date(book.Expairy_date).getDate()+"days Left")}
                 <div class="row g-0">
 
                     <div class="col-md-4 pt-2" >
@@ -72,7 +72,7 @@ return (
                             <h3 class="card-title">{book.Book.Title}</h3>
                             <br></br>
                             <h5 class="card-text">{book.Book.Author?.Author_Name}</h5>
-                            <p class="card-text"><small class="text-muted">{book.Book.Expairy_Date}</small></p>
+                            <p class="card-text"><small class="text-muted">{"Expiry on: "+(new Date(book.Expairy_date).getDate())+"/"+(new Date(book.Expairy_date).getMonth())+"/"+(new Date(book.Expairy_date).getFullYear())}</small></p>
                             <br></br>
                             <button type="button" class="btn btn-danger">Read/Listen</button>
                         </div>

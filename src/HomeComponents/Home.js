@@ -27,7 +27,7 @@ export class Home extends Component {
                 <DemoCarousel />
                 <br></br>
                 <Typography  sx={{ fontFamily: 'Monotype Corsiva', color:"#565656" }}>
-                <h1><u>Now Trading</u></h1>
+                <h1><u>Now Trending</u></h1>
                 </Typography>
                 <br></br>
                 <div className='container' >

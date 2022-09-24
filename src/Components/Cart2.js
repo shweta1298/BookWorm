@@ -31,15 +31,17 @@ export default function Cart2() {
     const navigate = useNavigate();
     //const { Id } = useParams();
 
-    const CustomerId = 1; // localStorage.getItem("CustomerId");
+    const CustomerId = localStorage.getItem("CustomerId");
 
     useEffect(() => {
+        localStorage.removeItem("Bookid");
        fetch("https://localhost:44356/api/GetFromCart/" + CustomerId)
             .then(res => res.json())
             .then((result) => {
                     setCart(result)
                 }
             );
+            
     },[]);
 
     const onProceedToPay = () => {
@@ -140,7 +142,7 @@ export default function Cart2() {
                                             Remove From Cart
                                         </Typography>
                                     </Button>
-                                        <RentButton/>
+                                        {/* <RentButton/> */}
                                 </Stack>
                             </CardActions>
                         </Box>

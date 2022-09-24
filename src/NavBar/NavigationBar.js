@@ -6,41 +6,57 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavLink from "react-bootstrap/NavLink"
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Modal, ModalBody } from "reactstrap";
-import "./Nav.css";
+
+
 import { useFormik } from "formik";
+import { Modal, ModalBody } from "reactstrap";
 import { LoginUpSchema } from "./Validation";
+import { ModelTraining, Password, PropaneSharp } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+
+import "./Nav.css";
+
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import logo from "./logo3.png";
 import SearchIcon from "@mui/icons-material/Search";
-import { Password, PropaneSharp } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 //import { Link, Outlet } from "react-router-dom";
 //import {routes,route} from 'react-router-dom'
 //import { NavLink } from "react-bootstrap";
 //import { appBarclassNamees } from "@mui/material";
 
+
+//const cors = require('cors');
+
 const initialValues = {
   Email_ID: "",
   Password: "",
 };
-//const cors = require('cors');
 
 function Newnav() {
   const [modal, setmodal] = useState(false);
   const loginref = useRef();
+  const navigate = useNavigate();
+
   // const[login, setlogin]=useState(initialValues);
   const toggle = () => {
     setmodal(!modal);
   };
 
   useEffect(() => {
+    // if(localStorage.getItem("openlogin")!=null){
+    //     setmodal(localStorage.getItem("openlogin"))
+
+    //     localStorage.clear();
+    //     navigate('/');
+    // }
+
     if (localStorage.getItem("CustomerId") !== null) {
       loginref.current.textContent = "Logout";
     } else if (localStorage.getItem("CustomerId") === null) {
       loginref.current.textContent = "Login";
     }
-  });
+  },[modal]);
  
   //width="130" height="30"
   return (
@@ -52,7 +68,7 @@ function Newnav() {
             style={{ paddingBottom: "4px" }}
             className="justify-content-Right nav ms-1 topnav"
           >
-            <a className="nav-link blcolor" href="/Home">
+            <a className="nav-link blcolor" href="/">
               <b>Home</b>
             </a>
           </div>
@@ -113,12 +129,24 @@ function Newnav() {
                 {/* ------------------------------------------------------------------------------------------------- */}
               </div>
               <div className="ms-3 nav topnav">
-                <a className="nav-link blcolor" href="/Cart2">
+                <a className="nav-link blcolor" href="#yy"  onClick={()=>{
+                 if (localStorage.getItem("CustomerId") !== null) {
+                  navigate("/Cart2")
+                } else if (localStorage.getItem("CustomerId") === null) {
+                  setmodal(true);
+                }
+                }} >
                   <ShoppingCartIcon />
                 </a>
               </div>
               <div className="ms-3 nav topnav">
-                <a className="nav-link blcolor" href="/Shelf">
+                <a className="nav-link blcolor" href="#tt" onClick={()=>{
+                 if (localStorage.getItem("CustomerId") !== null) {
+                  navigate("/Shelf")
+                } else if (localStorage.getItem("CustomerId") === null) {
+                  setmodal(true);
+                }
+                }}>
                   <b>MyShelf</b>
                 </a>
               </div>
@@ -153,6 +181,8 @@ function Newnav() {
     </div>
   );
 }
+export default Newnav;
+
 
 function LoginPopUp(props) {
   const [message, setmessage] = useState("");
@@ -277,7 +307,7 @@ function LoginPopUp(props) {
           <p>
             Dont have Account?
             <span>
-              <a href="#sv">Register here</a>
+              <a href="/Registration">Register here</a>
             </span>
           </p>
           {/* <Button color="primary" onClick={toggle}><a href="//www.google.com/"></a></Button> */}
@@ -286,7 +316,4 @@ function LoginPopUp(props) {
     </Modal>
   );
 }
-
-export default Newnav;
-
 // {/* <Button color="primary" onClick={toggle}><a href="//www.google.com/"></a></Button> */}

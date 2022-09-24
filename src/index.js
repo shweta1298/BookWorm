@@ -13,6 +13,7 @@ import Cart2 from './Components/Cart2';
 import ProductPage from './ProductsPage/productPage';
 import InvoiceTable from './Invoice/InvoiceTable';
 import Pages from './ProductsPage/Pages'
+//import LoginPopUp from './NavBar/LoginPopUp'
 
 //import NavigationBar from './NavBar/NavigationBar';
 
@@ -23,7 +24,7 @@ root.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />}>
-                <Route path="Home" element={<Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="Registration" element={<Registration />} />
                 <Route path="FetchDiscription" element={<FetchDiscription/>}/>
                 <Route path='Shelf' element={<Shelf/>}/>
@@ -31,6 +32,7 @@ root.render(
                 <Route path='ProductPage' element={<ProductPage/>}/>
                 <Route path='InvoiceTable' element={<InvoiceTable/>}/>
                 <Route path='Pages' element={<Pages/>}/>
+                {/* <Route path='LoginPopUp' element={<LoginPopUp/>}/> */}
                 </Route>
         </Routes>
     </BrowserRouter>

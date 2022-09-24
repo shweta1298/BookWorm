@@ -24,7 +24,7 @@ export default function Cards(props) {
     const redirectToDiscription = () => {
 
         //localStorage.setItem("Bookdata",bookobject)
-        localStorage.setItem("bookid",tempid)
+        localStorage.setItem("Bookid",tempid)
         navigate('/FetchDiscription');
     }
 
@@ -36,7 +36,7 @@ export default function Cards(props) {
                 onClick={()=>{
                     tempid=props.object.Id;
                     redirectToDiscription()}}
-                sx={{ width: "250px", height: "450px", marginBottom: "20px", bgcolor: "#fff6ff",borderColor:"#ff3b3f" }}>
+                sx={{ width: "250px", height: "450px", marginBottom: "20px", bgcolor: "#fff6ff",borderColor:"#ff3b3f"}}>
                     <CardMedia
                         sx={{ maxHeight: "350px", maxWidth: "230px", paddingLeft: "20px", marginTop: "10px" }}
 

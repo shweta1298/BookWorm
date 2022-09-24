@@ -140,7 +140,7 @@ function Successful(props) {
 
     const navigate = useNavigate();
     const GotoHome = () => {
-        navigate('/Home');
+        navigate('/');
     }
     const GotoShelf = () => {
         navigate('/Shelf');
