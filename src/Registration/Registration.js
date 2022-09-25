@@ -84,7 +84,7 @@ function Customer() {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(values)
             }).then((result) => {
                 console.warn("result", result);
                
