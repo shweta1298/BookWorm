@@ -1,9 +1,10 @@
 import React from "react";
-import "./App.css";
 
-import ProductPage from "./Components/productPage";
+import ProductPage from "./ProductsPage/productPage";
+import Description from "./Descriptionnew/Description";
 function App() {
-	return <ProductPage></ProductPage>;
+	return <Description></Description>;
+	// return <ProductPage></ProductPage>;
 }
 
 export default App;

@@ -15,58 +15,51 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useState } from "react";
-import { Co2Sharp } from "@mui/icons-material";
 
 const FilterProducts = ({ onSelectCategory }) => {
 	const [category, setCategory] = useState([]);
 	const [language, setLanguage] = useState([]);
 	const [genres, setGenres] = useState([]);
+	let [isSelected, setIsSelected] = useState(false);
 
-	// console.log({ category, language, genres });
 	const handleResetFilters = (event) => {
-		setCategory("");
+		setCategory([]);
+		setLanguage([]);
+		setGenres([]);
 	};
 	const handleCategoryChange = (event) => {
-		console.log("in child before" + category);
+		if (!isSelected) setIsSelected(false);
 
 		const index = category.indexOf(event.target.value);
 		if (index === -1) {
 			setCategory([...category, event.target.value]);
-			console.log("if not in array cond", category);
+			if (!isSelected) setIsSelected(true);
 		} else {
-			console.log(
-				"filter output" +
-					category.filter((category) => category !== event.target.value)
+			setCategory(
+				category.filter((category) => category !== event.target.value)
 			);
-			// setCategory(
-			// 	category.filter((category) => category !== event.target.value)
-			// );
-			console.log("if IS in array cond", category);
+			//if (category.length < 1) setIsSelected(false);
 		}
-		console.log("in child" + category);
-
-		// onSelectCategory(category);
 	};
 
-	// const handleLanguageChange = (event) => {
-	// 	const index = language.indexOf(event.target.value);
-	// 	if (index === -1) {
-	// 		setLanguage([...language, event.target.value]);
-	// 	} else {
-	// 		setLanguage(
-	// 			language.filter((language) => language !== event.target.value)
-	// 		);
-	// 	}
-	// };
-	// const handleGenreChange = (event) => {
-	// 	const index = genres.indexOf(event.target.value);
-	// 	if (index === -1) {
-	// 		setGenres([...genres, event.target.value]);
-	// 	} else {
-	// 		setGenres(genres.filter((genre) => genre !== event.target.value));
-	// 	}
-	// 	// console.log(genres);
-	// };
+	const handleLanguageChange = (event) => {
+		const index = language.indexOf(event.target.value);
+		if (index === -1) {
+			setLanguage([...language, event.target.value]);
+		} else {
+			setLanguage(
+				language.filter((language) => language !== event.target.value)
+			);
+		}
+	};
+	const handleGenreChange = (event) => {
+		const index = genres.indexOf(event.target.value);
+		if (index === -1) {
+			setGenres([...genres, event.target.value]);
+		} else {
+			setGenres(genres.filter((genre) => genre !== event.target.value));
+		}
+	};
 
 	return (
 		<div>
@@ -148,7 +141,7 @@ const FilterProducts = ({ onSelectCategory }) => {
 								control={
 									<Checkbox
 										checked={language.includes("English")}
-										// onChange={handleLanguageChange}
+										onChange={handleLanguageChange}
 										name='English'
 										value='English'
 									/>
@@ -159,7 +152,7 @@ const FilterProducts = ({ onSelectCategory }) => {
 								control={
 									<Checkbox
 										checked={language.includes("Hindi")}
-										// onChange={handleLanguageChange}
+										onChange={handleLanguageChange}
 										name='Hindi'
 										value='Hindi'
 									/>
@@ -170,7 +163,7 @@ const FilterProducts = ({ onSelectCategory }) => {
 								control={
 									<Checkbox
 										checked={language.includes("Marathi")}
-										// onChange={handleLanguageChange}
+										onChange={handleLanguageChange}
 										name='Marathi'
 										value='Marathi'
 									/>
@@ -202,19 +195,19 @@ const FilterProducts = ({ onSelectCategory }) => {
 							<FormControlLabel
 								control={
 									<Checkbox
-										checked={genres.includes("Horror")}
-										// onChange={handleGenreChange}
-										name='Horror'
-										value='Horror'
+										checked={genres.includes("Fantasy")}
+										onChange={handleGenreChange}
+										name='Fantasy'
+										value='Fantasy'
 									/>
 								}
-								label='Horror'
+								label='Fantasy'
 							/>
 							<FormControlLabel
 								control={
 									<Checkbox
 										checked={genres.includes("Sci-Fi")}
-										// onChange={handleGenreChange}
+										onChange={handleGenreChange}
 										name='Sci-Fi'
 										value='Sci-Fi'
 									/>
@@ -224,29 +217,141 @@ const FilterProducts = ({ onSelectCategory }) => {
 							<FormControlLabel
 								control={
 									<Checkbox
-										checked={genres.includes("Thriller")}
-										// onChange={handleGenreChange}
-										name='Thriller'
-										value='Thriller'
+										checked={genres.includes("Dystopian")}
+										onChange={handleGenreChange}
+										name='Dystopian'
+										value='Dystopian'
 									/>
 								}
-								label='Thriller'
+								label='Dystopian'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Action/Adventure")}
+										onChange={handleGenreChange}
+										name='Action/Adventure'
+										value='Action/Adventure'
+									/>
+								}
+								label='Action/Adventure'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Mystery")}
+										onChange={handleGenreChange}
+										name='Mystery'
+										value='Mystery'
+									/>
+								}
+								label='Mystery'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Horror")}
+										onChange={handleGenreChange}
+										name='Horror'
+										value='Horror'
+									/>
+								}
+								label='Horror'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Thriller/Suspense")}
+										onChange={handleGenreChange}
+										name='Thriller/Suspense'
+										value='Thriller/Suspense'
+									/>
+								}
+								label='Thriller/Suspense'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Romance")}
+										onChange={handleGenreChange}
+										name='Romance'
+										value='Romance'
+									/>
+								}
+								label='Romance'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Biography")}
+										onChange={handleGenreChange}
+										name='Biography'
+										value='Biography'
+									/>
+								}
+								label='Biography'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Self-help")}
+										onChange={handleGenreChange}
+										name='Self-help'
+										value='Self-help'
+									/>
+								}
+								label='Self-help'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Fiction")}
+										onChange={handleGenreChange}
+										name='Fiction'
+										value='Fiction'
+									/>
+								}
+								label='Fiction'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Treatise")}
+										onChange={handleGenreChange}
+										name='Treatise'
+										value='Treatise'
+									/>
+								}
+								label='Treatise'
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={genres.includes("Non-fiction")}
+										onChange={handleGenreChange}
+										name='Non-fiction'
+										value='Non-fiction'
+									/>
+								}
+								label='Non-fiction'
 							/>
 						</FormGroup>
 					</FormControl>
 				</AccordionDetails>
 			</Accordion>
+
 			<Stack>
 				<Button
 					sx={{ width: "150px", marginTop: "20px" }}
-					className='btncolor me-3'
-					onClick={(event) => onSelectCategory(category)}>
+					disabled={isSelected ? false : true}
+					className='applyfilterbtn'
+					onClick={() => onSelectCategory(category, language, genres)}>
 					Apply Filters
 				</Button>
 				<Button
 					variant='outlined'
 					sx={{ width: "150px", marginTop: "10px" }}
-					className='btncolor2 me-3'
+					className='resetbtn me-3'
 					onClick={handleResetFilters}>
 					Reset Filters
 				</Button>
